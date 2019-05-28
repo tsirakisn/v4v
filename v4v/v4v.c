@@ -94,7 +94,8 @@
 
 #define DEBUG_ORANGE(a) do { printk(KERN_ERR  "%s %s %s:%d cpu%d pid %d\n",a,__PRETTY_FUNCTION__,"v4v.c",__LINE__,raw_smp_processor_id(),current->pid); } while (1==0)
 
-#undef V4V_DEBUG
+//#undef V4V_DEBUG
+#define V4V_DEBUG 1
 #undef V4V_DEBUG_LOCKS
 
 #ifdef V4V_DEBUG
@@ -3433,6 +3434,8 @@ v4v_write (struct file *f,
   struct v4v_private *p = f->private_data;
   int nonblock = f->f_flags & O_NONBLOCK;
 
+  printk(KERN_ERR "entering v4v write...");
+
   return v4v_sendto (p, buf, count, 0, NULL, nonblock);
 }
 
@@ -3441,6 +3444,8 @@ v4v_read (struct file *f, char __user * buf, size_t count, loff_t * ppos)
 {
   struct v4v_private *p = f->private_data;
   int nonblock = f->f_flags & O_NONBLOCK;
+
+  printk(KERN_ERR "entering v4v read...");
 
   return v4v_recvfrom (p, (void *) buf, count, 0, NULL, nonblock);
 }
